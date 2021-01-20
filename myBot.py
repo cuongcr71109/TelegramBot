@@ -21,7 +21,7 @@ def main():
     
     while True:
         all_updates = my_bot.get_updates(new_offset)
-        times=0
+    
                
         if len(all_updates) > 0:
             for current_update in all_updates:
@@ -82,7 +82,7 @@ def main():
                         new_offset = first_update_id +1
                     
                     # send_message
-                    corWords= selectCorwords()
+                    corWords= selectCorwords() #corresponse words
                     for i in corWords:
                         if first_chat_text == i[0]:
                             my_bot.send_message(first_chat_id, "Nice to meet you, " + first_chat_name)
@@ -90,31 +90,22 @@ def main():
                             break
 
                     # delete_message
-                    banWords= selectBanwords()
+                    banWords= selectBanwords() #banned words
                     for i in banWords:
-                        # print(i[0])
                         if first_chat_text == i[0]: 
                             my_bot.del_message(first_chat_id, message_id)
                             new_offset = first_update_id +1
-                            vioMember(first_chat_id, user_id, user_fullname, times)
+                            vioMember(first_chat_id, user_id, user_fullname)
                             break
 
                     
                     # kick_member
-                    # if first_chat_id:
-                    vioList= viomember()
+                    vioList= viomember() #violation information
                     print('vioList',vioList)
-                    for i in vioList:
-                        # print(i[2])
-                        # print(first_chat_id)
-                        if first_chat_id == int(i[2]):
-                            if i[3] >=3:   
-                                print(first_chat_id)                                
-                                my_bot.send_message(first_chat_id,"must ban " + i[1])
-                                my_bot.kick_member(first_chat_id, int(i[0]))
-                                
-
-                    
+                    for i in vioList:    
+                        if first_chat_id == int(i[2]): 
+                            if i[3] >=10:                                 
+                                my_bot.kick_member(i[2], i[0])                    
                     
 
                     
@@ -126,20 +117,25 @@ def main():
                     for i in groupList:
                         # count total messages
                         if first_chat_id == int(i[0]):
-                            if first_chat_text == "/count":
+                            if first_chat_text == "/count": 
                                 my_bot.send_message(first_chat_id, "Total messages are: " +str(i[1]) )
                         # forward_message
-                        if i[0] != '-1001170310837':
-                            my_bot.forward_message(i[0],'-1001170310837', message_id)
+                        if i[0] != '-455427299':
+                            my_bot.forward_message(i[0],'-455427299', message_id)
 
-
+                    
+                    #statistics
                     totalvioList= totalvio()
-                    print('totalVio', totalvioList)
+                   
                     for i in totalvioList:
                         if first_chat_id == int(i[0]):
                             if first_chat_text == "/count":
-                                my_bot.send_message(first_chat_id, "Total violations are: " +str(i[1]) )
-                                my_bot.send_message(first_chat_id, "Total deleted messages are: " +str(i[1]) )
+                                if str(i[1]) ==" None":
+                                    my_bot.send_message(first_chat_id, "Total violations are: 0" )
+                                    my_bot.send_message(first_chat_id, "Total deleted messages are: 0" )
+                                else: 
+                                    my_bot.send_message(first_chat_id, "Total violations are: " +str(i[1]) )
+                                    my_bot.send_message(first_chat_id, "Total deleted messages are: " +str(i[1]) )
 
 
                   
