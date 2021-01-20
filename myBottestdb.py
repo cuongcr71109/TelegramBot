@@ -26,7 +26,7 @@ def insertWords():
     data= getExcel()
     mycusor.executemany(sql,data)
     datab.commit()
-
+insertWords()
 # select ban words
 def selectBanwords():
     sql= "SELECT ban_words FROM words"
@@ -55,7 +55,7 @@ def insertData(chat_id, user_id, user_fullname,message_id):
     mycusor.execute(sql,val)
     datab.commit()
 
- # select group chat id   
+ # select groupchat_id   
 def selectGCI():
     sql= "SELECT chat_id, COUNT(*) FROM groupchat GROUP BY chat_id "
     mycusor.execute(sql)
@@ -63,9 +63,9 @@ def selectGCI():
     return res
 
 # insert data to viomember table
-def vioMember(chat_id,user_id, user_fullname,times):
-    sql= "INSERT IGNORE INTO viomember (chat_id, user_id, user_fullname, times) VALUES (%s,%s, %s, %s)"
-    val= (chat_id, user_id, user_fullname, times)
+def vioMember(chat_id,user_id, user_fullname):
+    sql= "INSERT IGNORE INTO viomember (chat_id, user_id, user_fullname) VALUES (%s,%s, %s)"
+    val= (chat_id, user_id, user_fullname)
     mycusor.execute(sql,val)
     datab.commit()
 
@@ -82,3 +82,5 @@ def totalvio():
     mycusor.execute(sql)
     res= mycusor.fetchall()
     return res
+
+    

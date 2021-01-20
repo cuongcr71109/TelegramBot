@@ -53,6 +53,6 @@ class BotHandler:
     
            
 
-token = '1421953999:AAGkKzSCLNGtq0lS1jQQvZv2dUW078zPkLg' #Token of your bot
+token = '1567463547:AAF2bVE1nlnTl7Ru-4Bx5zEk6Fix7Iuvn3k' #Token of your bot
 
 my_bot = BotHandler(token=token)
