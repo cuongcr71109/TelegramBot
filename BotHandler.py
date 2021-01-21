@@ -50,6 +50,11 @@ class BotHandler:
         resp= requests.post(self.api_url + method_url, params)
         return resp
     
+    def join_group(self,group_link):
+        params = {'group_link': group_link}
+        method_url= r'joinChannel'
+        resp= requests.post(self.api_url + method_url, params)
+        return resp
     
            
 

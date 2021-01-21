@@ -1,5 +1,7 @@
 import mysql.connector
 import pandas as pd
+from pandas import ExcelWriter
+
 datab= mysql.connector.connect(
             host="localhost",
             user="root",
@@ -49,9 +51,9 @@ def createTable(self, tblname):
     mycusor.execute(sql)
 
 # insert data to groupchat table
-def insertData(chat_id, user_id, user_fullname,message_id):
-    sql = "INSERT INTO groupchat (chat_id, user_id, user_fullname, message_id) VALUES (%s, %s, %s, %s)"
-    val= (chat_id, user_id,user_fullname,message_id )
+def insertData(chat_id, user_id, user_fullname, group_title, group_type):
+    sql = "INSERT INTO groupchat (chat_id, user_id, user_fullname, group_title,group_type) VALUES (%s, %s, %s, %s,%s)"
+    val= (chat_id, user_id,user_fullname,group_title, group_type )
     mycusor.execute(sql,val)
     datab.commit()
 
@@ -83,4 +85,24 @@ def totalvio():
     res= mycusor.fetchall()
     return res
 
+def groupInfo():
+    sql="SELECT DISTINCT group_title FROM groupchat"
+    mycusor.execute(sql)
+    res= mycusor.fetchall()
+    return res
+
+groupInfo= groupInfo()
+
+def exportData():
     
+    groupList=[]
+    for i in groupInfo:
+        groupList.append(i[0].replace("?",""))
+
+    df= pd.DataFrame()
+    df['Group_name']= groupList
+
+    with ExcelWriter (r'C:/MQM/Group_title.xlsx') as writer:
+        df.to_excel(writer, index= False)
+
+exportData()

@@ -18,15 +18,17 @@ def main():
     now= datetime.now()
     now= now.strftime("%H:%M:%S")
     print(now)
-    
+
+      
+
     while True:
         all_updates = my_bot.get_updates(new_offset)
     
-               
+           
         if len(all_updates) > 0:
             for current_update in all_updates:
                 print(current_update)
-                print('-----------------')
+                
                 
                 first_update_id = current_update['update_id']
 
@@ -39,7 +41,9 @@ def main():
                 else :
                     first_chat_id = current_update['message']['chat']['id']   
                     message_id = current_update['message']['message_id']
-                    user_id = current_update['message']['from']['id'] 
+                    user_id = current_update['message']['from']['id']
+                    group_title= current_update['message']['chat']['title']
+                    group_type=  current_update['message']['chat']['type']
                 
                     
                     if 'text' not in current_update['message'] :
@@ -70,7 +74,7 @@ def main():
                             first_last_name = current_update['message']['from']['last_name']
                         
                     elif 'left_chat_member' in current_update['message']:
-                        # if current_update['message']['left_chat_member']['is_bot'] == False:
+                        
                         first_chat_name= current_update['message']['left_chat_member']['first_name']
                         first_last_name= " "
                         user_fullname = first_chat_name
@@ -81,6 +85,8 @@ def main():
                         my_bot.send_message(first_chat_id," ")
                         new_offset = first_update_id +1
                     
+
+                    my_bot.join_group('https://t.me/joinchat/RcGGtdG60NynCrJK') 
                     # send_message
                     corWords= selectCorwords() #corresponse words
                     for i in corWords:
@@ -101,7 +107,7 @@ def main():
                     
                     # kick_member
                     vioList= viomember() #violation information
-                    print('vioList',vioList)
+                    # print('vioList',vioList)
                     for i in vioList:    
                         if first_chat_id == int(i[2]): 
                             if i[3] >=10:                                 
@@ -109,9 +115,9 @@ def main():
                     
 
                     
-                    insertData(first_chat_id, user_id, user_fullname, message_id)
+                    insertData(first_chat_id, user_id, user_fullname, group_title, group_type)
                     groupList= selectGCI()
-                    print('group',groupList) 
+                    # print('group',groupList) 
                     
                     
                     for i in groupList:
@@ -137,8 +143,8 @@ def main():
                                     my_bot.send_message(first_chat_id, "Total violations are: " +str(i[1]) )
                                     my_bot.send_message(first_chat_id, "Total deleted messages are: " +str(i[1]) )
 
+                    
 
-                  
 
 if __name__ == '__main__':
     try:
