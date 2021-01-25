@@ -18,7 +18,6 @@ def main():
     now= datetime.now()
     now= now.strftime("%H:%M:%S")
     print(now)
-
       
 
     while True:
@@ -30,20 +29,26 @@ def main():
                 print(current_update)
                 
                 
-                first_update_id = current_update['update_id']
-
+                first_update_id = int (current_update['update_id'])
+                # print(type(first_update_id))
+                # print(type(first_update_id))
                 if 'channel_post' in current_update:
                     message_id = current_update['channel_post']['message_id']
                     first_chat_id= current_update['channel_post']['chat']['id']
                     first_chat_text= current_update['channel_post']['text']
                     user_id= current_update['channel_post']['sender_chat']['id']
+                    group_title= current_update['channel_post']['chat']['title']
+                    
+                    if first_chat_text:
+                        my_bot.send_message(first_chat_id," ")
+                        new_offset = first_update_id +1
             
                 else :
                     first_chat_id = current_update['message']['chat']['id']   
                     message_id = current_update['message']['message_id']
                     user_id = current_update['message']['from']['id']
                     group_title= current_update['message']['chat']['title']
-                    group_type=  current_update['message']['chat']['type']
+                    
                 
                     
                     if 'text' not in current_update['message'] :
@@ -111,14 +116,18 @@ def main():
                     for i in vioList:    
                         if first_chat_id == int(i[2]): 
                             if i[3] >=10:                                 
-                                my_bot.kick_member(i[2], i[0])                    
-                    
+                                my_bot.kick_member(i[2], i[0])     
 
+                    # insertData(first_chat_id, group_title,1)
+
+                    groupData=selectData(first_chat_id)
                     
-                    insertData(first_chat_id, user_id, user_fullname, group_title, group_type)
-                    groupList= selectGCI()
-                    # print('group',groupList) 
-                    
+                    if len(groupData) >0 :
+                        updateCntMes(first_chat_id)         
+                    else :
+                        insertData(first_chat_id, group_title,1)
+
+                    groupList= selectGCI() 
                     
                     for i in groupList:
                         # count total messages

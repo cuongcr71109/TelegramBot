@@ -19,6 +19,8 @@ class BotHandler:
         data = json.loads(resp.text)
         if data['ok'] == True:
             result_json = data['result']
+            # status_json= data['status']
+            # return  result_json + " " + status_json
             return  result_json
         return data
         
@@ -58,6 +60,6 @@ class BotHandler:
     
            
 
-token = '1567463547:AAF2bVE1nlnTl7Ru-4Bx5zEk6Fix7Iuvn3k' #Token of your bot
+token = '1545538064:AAEzIkHBkAOAg_h4fuU5YujTHikASDjEwUA' #Token of your bot
 
 my_bot = BotHandler(token=token)

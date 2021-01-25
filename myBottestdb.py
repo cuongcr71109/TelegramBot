@@ -17,7 +17,7 @@ else:
 
 # get file excel
 def getExcel():
-    file_import= "words.xlsx"
+    file_import= "C:/MQM/TeleBot_git/TelegramBot/words.xlsx"
     data = pd.read_excel(file_import)
     val= data.values.tolist()
     return val
@@ -28,6 +28,7 @@ def insertWords():
     data= getExcel()
     mycusor.executemany(sql,data)
     datab.commit()
+
 insertWords()
 # select ban words
 def selectBanwords():
@@ -51,18 +52,40 @@ def createTable(self, tblname):
     mycusor.execute(sql)
 
 # insert data to groupchat table
-def insertData(chat_id, user_id, user_fullname, group_title, group_type):
-    sql = "INSERT INTO groupchat (chat_id, user_id, user_fullname, group_title,group_type) VALUES (%s, %s, %s, %s,%s)"
-    val= (chat_id, user_id,user_fullname,group_title, group_type )
+def insertData(chat_id, group_title, times):
+    sql = "INSERT INTO groupchat (chat_id,group_title, times) VALUES (%s, %s, %s)"
+    val= (chat_id, group_title, times)
     mycusor.execute(sql,val)
     datab.commit()
 
+def selectData(chat_id):
+    sql="SELECT * FROM groupchat WHERE chat_id={}".format(chat_id)
+    mycusor.execute(sql)
+    res= mycusor.fetchall()
+    return res
+# print(selectData())
+
+def deleteData():
+    sql="DELETE  FROM groupchat WHERE times='1'"
+    mycusor.execute(sql)
+    datab.commit()
  # select groupchat_id   
 def selectGCI():
     sql= "SELECT chat_id, COUNT(*) FROM groupchat GROUP BY chat_id "
     mycusor.execute(sql)
     res= mycusor.fetchall()
     return res
+
+#select number of message
+def updateCntMes(chat_id):
+    sql1= "Select times FROM groupchat where chat_id ={} ".format(chat_id)
+    mycusor.execute(sql1)
+    times= mycusor.fetchall()
+    print(times)
+    sql2= "UPDATE groupchat SET times={} WHERE chat_id={}".format(times[0][0]+1,chat_id)
+    mycusor.execute(sql2)
+    datab.commit()
+   
 
 # insert data to viomember table
 def vioMember(chat_id,user_id, user_fullname):
@@ -86,7 +109,7 @@ def totalvio():
     return res
 
 def groupInfo():
-    sql="SELECT DISTINCT group_title FROM groupchat"
+    sql="SELECT DISTINCT group_title FROM groupchat WHERE NOT chat_id='-455427299'"
     mycusor.execute(sql)
     res= mycusor.fetchall()
     return res
@@ -106,3 +129,5 @@ def exportData():
         df.to_excel(writer, index= False)
 
 exportData()
+
+# print(selectData())
