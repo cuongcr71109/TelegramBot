@@ -23,6 +23,18 @@ class BotHandler:
             # return  result_json + " " + status_json
             return  result_json
         return data
+
+    # def get_chatMember(self, offset=0, timeout=30):
+    #     method_url= r'getChatMember'
+    #     params = {'timeout': timeout, 'offset': offset}
+    #     resp= requests.get(self.api_url + method_url, params)
+    #     data= json.loads(resp.text)
+    #     if data['ok'] == True:
+    #         result_json = data['result']
+    #         # status_json= data['status']
+    #         # return  result_json + " " + status_json
+    #         return  result_json
+    #     return data
         
     #function send messages    
     def send_message(self, chat_id, text):
@@ -52,11 +64,6 @@ class BotHandler:
         resp= requests.post(self.api_url + method_url, params)
         return resp
     
-    def join_group(self,group_link):
-        params = {'group_link': group_link}
-        method_url= r'joinChannel'
-        resp= requests.post(self.api_url + method_url, params)
-        return resp
     
            
 
