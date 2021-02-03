@@ -53,6 +53,8 @@ class BotHandler:
     
            
 
-token = '1545538064:AAEzIkHBkAOAg_h4fuU5YujTHikASDjEwUA' #Token of your bot
+token = '1699769501:AAHgmj5qvRfi_LsDf4Tk4B5quMiQd6_RD9g' #Token of your bot 
+# username: @nguyenminhquanMQM_bot
+#name : Nguyen Minh Quan
 
 my_bot = BotHandler(token=token)
