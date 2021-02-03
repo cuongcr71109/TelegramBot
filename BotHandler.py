@@ -14,28 +14,14 @@ class BotHandler:
         method_url = r'getUpdates'
         params = {'timeout': timeout, 'offset': offset}
         resp = requests.get(self.api_url + method_url, params)
-        # result = resp.json()['result']
-        # return result
         data = json.loads(resp.text)
         if data['ok'] == True:
             result_json = data['result']
-            # status_json= data['status']
-            # return  result_json + " " + status_json
+           
             return  result_json
         return data
 
-    # def get_chatMember(self, offset=0, timeout=30):
-    #     method_url= r'getChatMember'
-    #     params = {'timeout': timeout, 'offset': offset}
-    #     resp= requests.get(self.api_url + method_url, params)
-    #     data= json.loads(resp.text)
-    #     if data['ok'] == True:
-    #         result_json = data['result']
-    #         # status_json= data['status']
-    #         # return  result_json + " " + status_json
-    #         return  result_json
-    #     return data
-        
+    
     #function send messages    
     def send_message(self, chat_id, text):
         params = {'chat_id': chat_id, 'text': text, 'parse_mode': 'HTML'}

@@ -5,8 +5,8 @@ import operator
 import json
 import collections
 import mysql.connector
-import myBottestdb
-from myBottestdb import *
+import myBotdb
+from myBotdb import *
 from BotHandler import*
 
 
@@ -138,7 +138,7 @@ def main():
                     # forward_message
                     chatForward= selectGCI()
                     for i in chatForward:
-                        if i[0] != '-455427299':
+                        if i[0] != '-455427299':  # id của group trung gian 
                             my_bot.forward_message(i[0],'-455427299', message_id)
 
                     #statistic    
